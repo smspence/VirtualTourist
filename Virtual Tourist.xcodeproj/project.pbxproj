@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A69FB7221B96A09400CDBD43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FB7211B96A09400CDBD43 /* AppDelegate.swift */; };
-		A69FB7241B96A09400CDBD43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FB7231B96A09400CDBD43 /* ViewController.swift */; };
+		A69FB7241B96A09400CDBD43 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FB7231B96A09400CDBD43 /* MapViewController.swift */; };
 		A69FB7271B96A09400CDBD43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A69FB7251B96A09400CDBD43 /* Main.storyboard */; };
 		A69FB7291B96A09400CDBD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A69FB7281B96A09400CDBD43 /* Images.xcassets */; };
 		A69FB72C1B96A09400CDBD43 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A69FB72A1B96A09400CDBD43 /* LaunchScreen.xib */; };
@@ -29,7 +29,7 @@
 		A69FB71C1B96A09400CDBD43 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A69FB7201B96A09400CDBD43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A69FB7211B96A09400CDBD43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A69FB7231B96A09400CDBD43 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A69FB7231B96A09400CDBD43 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A69FB7261B96A09400CDBD43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A69FB7281B96A09400CDBD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A69FB72B1B96A09400CDBD43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				A69FB7211B96A09400CDBD43 /* AppDelegate.swift */,
-				A69FB7231B96A09400CDBD43 /* ViewController.swift */,
+				A69FB7231B96A09400CDBD43 /* MapViewController.swift */,
 				A69FB7251B96A09400CDBD43 /* Main.storyboard */,
 				A69FB7281B96A09400CDBD43 /* Images.xcassets */,
 				A69FB72A1B96A09400CDBD43 /* LaunchScreen.xib */,
@@ -212,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A69FB7241B96A09400CDBD43 /* ViewController.swift in Sources */,
+				A69FB7241B96A09400CDBD43 /* MapViewController.swift in Sources */,
 				A69FB7221B96A09400CDBD43 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
