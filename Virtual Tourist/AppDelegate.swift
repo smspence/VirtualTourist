@@ -8,6 +8,11 @@
 
 import UIKit
 
+// Disable println statements in release build
+#if !DEBUG
+    func println(object: Any) {}
+#endif
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
