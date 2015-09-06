@@ -32,6 +32,21 @@ class MapViewController: UIViewController {
         mapView.delegate = self
 
         restoreMapRegion(false)
+
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        mapView.addGestureRecognizer(longPressRecognizer)
+    }
+
+    func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+
+        if gestureRecognizer.state == .Began {
+
+            let touchCoordinatesXY : CGPoint = gestureRecognizer.locationInView(mapView)
+
+            let latLonCoordinates = mapView.convertPoint(touchCoordinatesXY, toCoordinateFromView: mapView)
+
+            println("x, y: \(touchCoordinatesXY)  lat, lon: (\(latLonCoordinates.latitude), \(latLonCoordinates.longitude))")
+        }
     }
 
     func saveMapRegion() {
