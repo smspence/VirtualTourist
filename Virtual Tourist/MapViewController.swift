@@ -29,6 +29,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Delegate methods defined in class extension at bottom of this file
         mapView.delegate = self
 
         restoreMapRegion(false)
@@ -46,7 +47,17 @@ class MapViewController: UIViewController {
             let latLonCoordinates = mapView.convertPoint(touchCoordinatesXY, toCoordinateFromView: mapView)
 
             println("x, y: \(touchCoordinatesXY)  lat, lon: (\(latLonCoordinates.latitude), \(latLonCoordinates.longitude))")
+
+            addAnnotationAtLatLon(latLonCoordinates)
         }
+    }
+
+    func addAnnotationAtLatLon(latLonPoint: CLLocationCoordinate2D) {
+
+        let newAnnotation = MKPointAnnotation()
+        newAnnotation.coordinate = latLonPoint
+
+        mapView.addAnnotation(newAnnotation)
     }
 
     func saveMapRegion() {
@@ -97,5 +108,22 @@ extension MapViewController : MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
         saveMapRegion()
+    }
+
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+
+        let reuseId = "pin"
+
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.pinColor = .Red
+            pinView!.animatesDrop = true
+        } else {
+            pinView!.annotation = annotation
+        }
+
+        return pinView
     }
 }
