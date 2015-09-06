@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A695983E1B9CDBF6006BFCD3 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A695983D1B9CDBF6006BFCD3 /* CoreDataStackManager.swift */; };
+		A69598421B9CDF8F006BFCD3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A69598401B9CDF8F006BFCD3 /* Model.xcdatamodeld */; };
+		A69598441B9CDFC6006BFCD3 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69598431B9CDFC6006BFCD3 /* Pin.swift */; };
 		A69FB7221B96A09400CDBD43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FB7211B96A09400CDBD43 /* AppDelegate.swift */; };
 		A69FB7241B96A09400CDBD43 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FB7231B96A09400CDBD43 /* MapViewController.swift */; };
 		A69FB7271B96A09400CDBD43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A69FB7251B96A09400CDBD43 /* Main.storyboard */; };
@@ -26,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A695983D1B9CDBF6006BFCD3 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		A69598411B9CDF8F006BFCD3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		A69598431B9CDFC6006BFCD3 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		A69FB71C1B96A09400CDBD43 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A69FB7201B96A09400CDBD43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A69FB7211B96A09400CDBD43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +62,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A695983F1B9CDF72006BFCD3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A69598401B9CDF8F006BFCD3 /* Model.xcdatamodeld */,
+				A69598431B9CDFC6006BFCD3 /* Pin.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		A69FB7131B96A09400CDBD43 = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				A69FB7211B96A09400CDBD43 /* AppDelegate.swift */,
+				A695983D1B9CDBF6006BFCD3 /* CoreDataStackManager.swift */,
+				A695983F1B9CDF72006BFCD3 /* Model */,
 				A69FB7231B96A09400CDBD43 /* MapViewController.swift */,
 				A69FB7251B96A09400CDBD43 /* Main.storyboard */,
 				A69FB7281B96A09400CDBD43 /* Images.xcassets */,
@@ -212,8 +229,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A69598441B9CDFC6006BFCD3 /* Pin.swift in Sources */,
 				A69FB7241B96A09400CDBD43 /* MapViewController.swift in Sources */,
 				A69FB7221B96A09400CDBD43 /* AppDelegate.swift in Sources */,
+				A695983E1B9CDBF6006BFCD3 /* CoreDataStackManager.swift in Sources */,
+				A69598421B9CDF8F006BFCD3 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +430,7 @@
 				A69FB73D1B96A09400CDBD43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A69FB73E1B96A09400CDBD43 /* Build configuration list for PBXNativeTarget "Virtual TouristTests" */ = {
 			isa = XCConfigurationList;
@@ -418,8 +439,22 @@
 				A69FB7401B96A09400CDBD43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A69598401B9CDF8F006BFCD3 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A69598411B9CDF8F006BFCD3 /* Model.xcdatamodel */,
+			);
+			currentVersion = A69598411B9CDF8F006BFCD3 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A69FB7141B96A09400CDBD43 /* Project object */;
 }

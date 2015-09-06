@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapViewController: UIViewController {
 
@@ -26,6 +27,10 @@ class MapViewController: UIViewController {
         return url.URLByAppendingPathComponent("mapRegionArchive").path!
     }
 
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext!
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,8 +39,40 @@ class MapViewController: UIViewController {
 
         restoreMapRegion(false)
 
+        let restoredPins = fetchAllPins()
+        if restoredPins.count > 0 {
+
+            var annotations = [MKPointAnnotation]()
+
+            for pin in restoredPins {
+                let newAnnotation = MKPointAnnotation()
+                newAnnotation.coordinate = pin.location
+                annotations.append(newAnnotation)
+            }
+
+            mapView.addAnnotations(annotations)
+        }
+
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         mapView.addGestureRecognizer(longPressRecognizer)
+    }
+
+    func fetchAllPins() -> [Pin] {
+        let error: NSErrorPointer = nil
+
+        // Create the Fetch Request
+        let fetchRequest = NSFetchRequest(entityName: Pin.Constants.EntityName)
+
+        // Execute the Fetch Request
+        let results = sharedContext.executeFetchRequest(fetchRequest, error: error)
+
+        // Check for Errors
+        if error != nil {
+            println("Error in fetchAllPins(): \(error)")
+        }
+
+        // Return the results, cast to an array of Pin objects
+        return results as! [Pin]
     }
 
     func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
@@ -58,6 +95,10 @@ class MapViewController: UIViewController {
         newAnnotation.coordinate = latLonPoint
 
         mapView.addAnnotation(newAnnotation)
+
+        // Create a new Pin object to be saved using CoreData
+        let newPin = Pin(latLonLocation: latLonPoint, context: sharedContext)
+        CoreDataStackManager.sharedInstance().saveContext()
     }
 
     func saveMapRegion() {
