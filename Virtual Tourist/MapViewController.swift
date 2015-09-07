@@ -85,20 +85,26 @@ class MapViewController: UIViewController {
 
             println("x, y: \(touchCoordinatesXY)  lat, lon: (\(latLonCoordinates.latitude), \(latLonCoordinates.longitude))")
 
-            addAnnotationAtLatLon(latLonCoordinates)
+            addMapAnnotationAtLatLon(latLonCoordinates)
+            addPinObjectAtLatLon(latLonCoordinates)
         }
     }
 
-    func addAnnotationAtLatLon(latLonPoint: CLLocationCoordinate2D) {
+    func addPinObjectAtLatLon(latLonPoint: CLLocationCoordinate2D) {
+
+        // Create a new Pin object to be saved using CoreData
+        let newPin = Pin(latLonLocation: latLonPoint, context: sharedContext)
+        CoreDataStackManager.sharedInstance().saveContext()
+
+        FlickrClient.sharedInstance().getPhotosAtLocation(latLonPoint.latitude, longitude: latLonPoint.longitude)
+    }
+
+    func addMapAnnotationAtLatLon(latLonPoint: CLLocationCoordinate2D) {
 
         let newAnnotation = MKPointAnnotation()
         newAnnotation.coordinate = latLonPoint
 
         mapView.addAnnotation(newAnnotation)
-
-        // Create a new Pin object to be saved using CoreData
-        let newPin = Pin(latLonLocation: latLonPoint, context: sharedContext)
-        CoreDataStackManager.sharedInstance().saveContext()
     }
 
     func saveMapRegion() {
