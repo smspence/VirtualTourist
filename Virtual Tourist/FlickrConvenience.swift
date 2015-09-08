@@ -10,7 +10,7 @@ import Foundation
 
 extension FlickrClient {
 
-    private func getJsonForPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (success: Bool) -> Void) {
+    private func getJsonForPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (photoUrls: [String], success: Bool) -> Void) {
 
         let delta = 0.5
 
@@ -37,6 +37,7 @@ extension FlickrClient {
                 println("getJsonForPhotos download error: \(error)")
             } else {
 
+                var photoUrls : [String] = [String]()
 
                 if let photosDictionary = JSONResult["photos"] as? [String : AnyObject] {
 
@@ -56,55 +57,60 @@ extension FlickrClient {
 
                         if let photosArray = photosDictionary["photo"] as? [[String : AnyObject]] {
 
-                            let randomArrayIndex = Int(arc4random_uniform(UInt32(photosArray.count)))
-                            let photoMetaData = photosArray[randomArrayIndex]
+                            let maxPhotosToReturn = 5
+                            let numPhotosToReturn : Int
 
-                            if let photoTitleString = photoMetaData["title"] as? String,
-                                let photoUrlString = photoMetaData["url_m"] as? String {
+                            if maxPhotosToReturn < numPhotos {
+                                numPhotosToReturn = maxPhotosToReturn
+                            } else {
+                                numPhotosToReturn = numPhotos
+                            }
 
-                                    if let imageData = NSData(contentsOfURL: NSURL(string: photoUrlString)!) {
+                            for ii in 0 ..< numPhotosToReturn {
 
-                                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                            // do our updates on the main thread
-                                            // make these updates minimal
+                                // First photo in array
+                                let photoMetaData = photosArray[ii]
 
-                                            //someUIImageView.image = UIImage(data: imageData)
-                                        })
-                                    } else {
-                                        println("Could not download image at url: \(photoUrlString)")
-                                    }
-                            }//unwrap title and url optionals
-                            
+                                if let photoUrlString = photoMetaData["url_m"] as? String {
+
+                                    photoUrls.append(photoUrlString)
+
+                                }//unwrap url optional
+                            }
+
                         }//unwrap photosArray optional
-
-                        success = true
                     }
+
+                    success = true
+
                 } else {
                     println("!! Could not find \"photos\" object in JSON result !!")
                 }
 
                 // call completion handler on the main thread
                 dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler(success: success)
+                    completionHandler(photoUrls: photoUrls, success: success)
                 }
             }
-        
+
         }
 
     }
 
-    func getPhotosAtLocation(latitude: Double, longitude: Double) {
+    func getPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (photoUrls: [String]) -> Void) {
 
         // Dallas:
         // lat, lon: (32.7637368149042, -96.7277308320317)
 
-        getJsonForPhotosAtLocation(latitude, longitude: longitude) { (success: Bool) in
+        getJsonForPhotosAtLocation(latitude, longitude: longitude) { (photoUrls: [String], success: Bool) in
 
             if success {
                 println("Successfully completed getPhotosAtLocation")
             } else {
                 println("Unsuccessful getPhotosAtLocation :(")
             }
+
+            completionHandler(photoUrls: photoUrls)
         }
     }
 

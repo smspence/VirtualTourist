@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Shawn Spencer. All rights reserved.
 //
 
-import Foundation
 import MapKit
 import CoreData
 
@@ -20,6 +19,7 @@ class Pin : NSManagedObject {
 
     @NSManaged private var latitudeDegrees : Double
     @NSManaged private var longitudeDegrees : Double
+    @NSManaged var photos : [Photo]
 
     // Standard CoreData init method
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {

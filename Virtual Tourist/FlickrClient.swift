@@ -18,6 +18,10 @@ class FlickrClient: NSObject {
         super.init()
     }
 
+    struct Caches {
+        static let imageCache = ImageCache()
+    }
+
     // MARK: - Shared Instance
 
     class func sharedInstance() -> FlickrClient {

@@ -95,8 +95,6 @@ class MapViewController: UIViewController {
         // Create a new Pin object to be saved using CoreData
         let newPin = Pin(latLonLocation: latLonPoint, context: sharedContext)
         CoreDataStackManager.sharedInstance().saveContext()
-
-        FlickrClient.sharedInstance().getPhotosAtLocation(latLonPoint.latitude, longitude: latLonPoint.longitude)
     }
 
     func addMapAnnotationAtLatLon(latLonPoint: CLLocationCoordinate2D) {
@@ -105,6 +103,40 @@ class MapViewController: UIViewController {
         newAnnotation.coordinate = latLonPoint
 
         mapView.addAnnotation(newAnnotation)
+    }
+
+    func fetchPinForAnnotation(annotation: MKPointAnnotation) -> Pin? {
+
+        let fetchRequest = NSFetchRequest(entityName: Pin.Constants.EntityName)
+
+        fetchRequest.predicate = NSPredicate(format: "latitudeDegrees == %lf && longitudeDegrees == %lf",
+            annotation.coordinate.latitude, annotation.coordinate.longitude)
+
+        let error: NSErrorPointer = nil
+        let results = sharedContext.executeFetchRequest(fetchRequest, error: error)
+
+        if error != nil {
+            println("Error in fetchAllPins(): \(error)")
+        }
+
+        var returnObject : Pin? = nil
+
+        if let results = results as? [Pin] {
+
+            if results.count > 0 {
+
+                returnObject = results[0]
+
+                if results.count > 1 {
+                    println("!! fetch for Pin for annotation returned \(results.count) results, supposed to be only 1 result !!")
+                }
+
+            } else {
+                println("!! fetch for Pin for annotation returned 0 results !!")
+            }
+        }
+
+        return returnObject
     }
 
     func saveMapRegion() {
@@ -155,6 +187,21 @@ extension MapViewController : MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
         saveMapRegion()
+    }
+
+    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+
+        if let pin = fetchPinForAnnotation(view.annotation as! MKPointAnnotation) {
+
+            let photoAlbumVC = self.storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewControllerId") as! PhotoAlbumViewController
+
+            photoAlbumVC.pin = pin
+
+            self.navigationController!.pushViewController(photoAlbumVC, animated: true)
+
+        } else {
+            println("!! Could not find Pin object associated with annotation !!")
+        }
     }
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
