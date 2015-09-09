@@ -78,7 +78,7 @@ class FlickrClient: NSObject {
 
         let request = NSURLRequest(URL: url)
 
-        let task = session.dataTaskWithRequest(request) {data, response, downloadError in
+        let task = session.dataTaskWithRequest(request) { data, response, downloadError in
 
             if downloadError != nil {
                 completionHandler(downloadedData: nil, error: downloadError)

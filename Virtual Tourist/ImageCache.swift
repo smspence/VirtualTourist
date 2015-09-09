@@ -19,7 +19,7 @@ class ImageCache {
         // If the identifier is nil, or empty, return nil
         if identifier == nil || identifier! == "" {
 
-            println("In imageWithIdentifier, identifier is nil or empty")
+            println("!! In imageWithIdentifier, identifier is nil or empty !!")
 
             return nil
         }
@@ -35,11 +35,16 @@ class ImageCache {
         // Next Try the hard drive
         if let data = NSData(contentsOfFile: path) {
             println("Returned image from hard drive")
-            return UIImage(data: data)
+
+            let image = UIImage(data: data)
+            // Save the image in the cache before returning,
+            //  so it can be quickly fetched later if needed
+            inMemoryCache.setObject(image!, forKey: path)
+
+            return image
         }
 
-        println("!! Reached the end of imageWithIdentifier !!")
-        //println("       identifier = \"\(identifier!)\", path = \"\(path)\"")
+        println("Reached the end of imageWithIdentifier.")
 
         return nil
     }

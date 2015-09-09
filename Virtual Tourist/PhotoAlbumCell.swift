@@ -12,4 +12,13 @@ class PhotoAlbumCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
 
+    var taskToCancelifCellIsReused: NSURLSessionTask? {
+
+        didSet {
+            if let taskToCancel = oldValue {
+                taskToCancel.cancel()
+            }
+        }
+    }
+
 }

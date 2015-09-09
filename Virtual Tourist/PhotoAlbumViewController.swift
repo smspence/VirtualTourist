@@ -71,24 +71,29 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
             // The image needs to be downloaded from Flickr
 
-            // TODO - do this with a FlickrClient.taskForWhatever call,
-            //         so the task can be associated with the cell and cancelled later if needed
-            if let imageData = NSData(contentsOfURL: NSURL(string: photo.flickrUrl!)!) {
+            let task = FlickrClient.sharedInstance().taskForFile(photo.flickrUrl!) { (downloadedData, error) -> Void in
 
-                // Make sure UI updates and CoreData updates are made on the main thread
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if let error = error {
+                    println("Error returned when trying to download image from Flickr: \(error)")
+                }
+
+                if let imageData = downloadedData {
 
                     let downloadedImage = UIImage(data: imageData)
 
-                    cell.imageView.image = downloadedImage
+                    // Make sure UI updates and CoreData updates are made on the main thread
+                    dispatch_async(dispatch_get_main_queue()) {
 
-                    // Make sure the image is associated with the Photo object in CoreData
-                    photo.image = downloadedImage
-                    CoreDataStackManager.sharedInstance().saveContext()
-                })
-            } else {
-                println("Could not download image at url: \(photo.flickrUrl)")
+                        cell.imageView.image = downloadedImage
+
+                        // Make sure the image is associated with the Photo object in CoreData
+                        photo.image = downloadedImage
+                        CoreDataStackManager.sharedInstance().saveContext()
+                    }
+                }
             }
+
+            cell.taskToCancelifCellIsReused = task
         }
 
         cell.imageView.image = image

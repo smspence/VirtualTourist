@@ -38,20 +38,10 @@ class Photo : NSManagedObject {
     var image: UIImage? {
 
         get {
-
-            if localFileName == nil || localFileName == "" {
-                println("!! localFileName is nil or empty in Photo.getImage !!")
-            }
-
             return FlickrClient.Caches.imageCache.imageWithIdentifier(localFileName)
         }
 
         set {
-
-            if localFileName == nil || localFileName == "" {
-                println("!! localFileName is nil or empty in Photo.setImage !!")
-            }
-
             FlickrClient.Caches.imageCache.storeImage(newValue, withIdentifier: localFileName!)
         }
     }
