@@ -8,6 +8,23 @@
 
 import Foundation
 
+/*
+Shuffle as a mutating array method.
+This extension will let you shuffle a mutable Array instance in place.
+Example:
+var numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+numbers.shuffle()  // e.g., numbers == [6, 1, 8, 3, 2, 4, 7, 5]
+*/
+extension Array {
+    mutating func shuffle() {
+        if count < 2 { return }
+        for i in 0..<(count - 1) {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            swap(&self[i], &self[j])
+        }
+    }
+}
+
 extension FlickrClient {
 
     private func getJsonForPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (photoUrls: [String], success: Bool) -> Void) {
@@ -58,12 +75,16 @@ extension FlickrClient {
 
                             println("photosDictionary contains \(photosArray.count) photos")
 
+                            // Return an array of 24 (or less if the returned list is smaller)
+                            //   randomly-selected photo URLs
                             let maxPhotosToReturn = 24
                             let numPhotosToReturn = min(maxPhotosToReturn, photosArray.count)
 
+                            let randomArrayIndices = self.getRandomIndicesWithArraySize(photosArray.count)
+
                             for ii in 0 ..< numPhotosToReturn {
 
-                                let photoMetaData = photosArray[ii]
+                                let photoMetaData = photosArray[ randomArrayIndices[ii] ]
 
                                 if let photoUrlString = photoMetaData["url_m"] as? String {
 
@@ -88,6 +109,20 @@ extension FlickrClient {
             }
         }
 
+    }
+
+    private func getRandomIndicesWithArraySize(let arraySize: Int) -> [Int] {
+
+        var arrayOfIndices = [Int]()
+        arrayOfIndices.reserveCapacity(arraySize)
+
+        for ii in 0 ..< arraySize {
+            arrayOfIndices.append(ii)
+        }
+
+        arrayOfIndices.shuffle()
+
+        return arrayOfIndices
     }
 
     func getPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (photoUrls: [String]) -> Void) {
