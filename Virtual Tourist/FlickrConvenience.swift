@@ -113,7 +113,7 @@ extension FlickrClient {
 
     private func getRandomIndicesWithArraySize(let arraySize: Int) -> [Int] {
 
-        var arrayOfIndices = [Int]()
+        var arrayOfIndices : [Int] = [Int]()
         arrayOfIndices.reserveCapacity(arraySize)
 
         for ii in 0 ..< arraySize {
