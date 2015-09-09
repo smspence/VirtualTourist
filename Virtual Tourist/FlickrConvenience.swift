@@ -32,12 +32,11 @@ extension FlickrClient {
         taskForGetJson(parameters) { (JSONResult, error) in
 
             var success = false
+            var photoUrls : [String] = [String]()
 
             if let error = error {
                 println("getJsonForPhotos download error: \(error)")
             } else {
-
-                var photoUrls : [String] = [String]()
 
                 if let photosDictionary = JSONResult["photos"] as? [String : AnyObject] {
 
@@ -57,18 +56,13 @@ extension FlickrClient {
 
                         if let photosArray = photosDictionary["photo"] as? [[String : AnyObject]] {
 
-                            let maxPhotosToReturn = 5
-                            let numPhotosToReturn : Int
+                            println("photosDictionary contains \(photosArray.count) photos")
 
-                            if maxPhotosToReturn < numPhotos {
-                                numPhotosToReturn = maxPhotosToReturn
-                            } else {
-                                numPhotosToReturn = numPhotos
-                            }
+                            let maxPhotosToReturn = 24
+                            let numPhotosToReturn = min(maxPhotosToReturn, photosArray.count)
 
                             for ii in 0 ..< numPhotosToReturn {
 
-                                // First photo in array
                                 let photoMetaData = photosArray[ii]
 
                                 if let photoUrlString = photoMetaData["url_m"] as? String {
@@ -86,21 +80,17 @@ extension FlickrClient {
                 } else {
                     println("!! Could not find \"photos\" object in JSON result !!")
                 }
-
-                // call completion handler on the main thread
-                dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler(photoUrls: photoUrls, success: success)
-                }
             }
 
+            // call completion handler on the main thread
+            dispatch_async(dispatch_get_main_queue()) {
+                completionHandler(photoUrls: photoUrls, success: success)
+            }
         }
 
     }
 
     func getPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (photoUrls: [String]) -> Void) {
-
-        // Dallas:
-        // lat, lon: (32.7637368149042, -96.7277308320317)
 
         getJsonForPhotosAtLocation(latitude, longitude: longitude) { (photoUrls: [String], success: Bool) in
 

@@ -27,6 +27,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.delegate = self
         collectionView.dataSource = self
 
+        setUpMapView()
+
         if pin.photos.count > 0 {
             println("pin already has \(pin.photos.count) photos")
         }
@@ -49,6 +51,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }
 
         }
+    }
+
+    func setUpMapView() {
+        let newAnnotation = MKPointAnnotation()
+        newAnnotation.coordinate = pin.location
+        mapView.addAnnotation(newAnnotation)
+        mapView.setRegion(MKCoordinateRegion(center: pin.location, span: MKCoordinateSpan(latitudeDelta: 0.075, longitudeDelta: 0.075)), animated: false)
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
