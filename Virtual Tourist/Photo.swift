@@ -18,7 +18,7 @@ class Photo : NSManagedObject {
     }
 
     @NSManaged var flickrUrl : String?
-    @NSManaged var localFileName : String?
+    @NSManaged private var localFileName : String?
     @NSManaged var pin : Pin?
 
     // Standard CoreData init method
@@ -32,15 +32,26 @@ class Photo : NSManagedObject {
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
         self.flickrUrl = flickrUrl
+        self.localFileName = flickrUrl.lastPathComponent
     }
 
     var image: UIImage? {
 
         get {
+
+            if localFileName == nil || localFileName == "" {
+                println("!! localFileName is nil or empty in Photo.getImage !!")
+            }
+
             return FlickrClient.Caches.imageCache.imageWithIdentifier(localFileName)
         }
 
         set {
+
+            if localFileName == nil || localFileName == "" {
+                println("!! localFileName is nil or empty in Photo.setImage !!")
+            }
+
             FlickrClient.Caches.imageCache.storeImage(newValue, withIdentifier: localFileName!)
         }
     }

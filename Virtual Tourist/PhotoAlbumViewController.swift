@@ -35,50 +35,63 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
             FlickrClient.sharedInstance().getPhotosAtLocation(pin.location.latitude, longitude: pin.location.longitude) { (photoUrls: [String]) in
 
-                println("photoUrls contains \(photoUrls.count) urls")
-                // TODO - remove
                 for url in photoUrls {
-                    println(url)
 
                     var photo = Photo(flickrUrl: url, context: self.sharedContext)
 
+                    // Establish the relationship between photo and pin in CoreData
                     photo.pin = self.pin
                 }
 
                 CoreDataStackManager.sharedInstance().saveContext()
 
+                self.collectionView.reloadData()
             }
 
         }
     }
 
-//    if let imageData = NSData(contentsOfURL: NSURL(string: photoUrlString)!) {
-//
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            // do our updates on the main thread
-//            // make these updates minimal
-//
-//            //someUIImageView.image = UIImage(data: imageData)
-//        })
-//    } else {
-//        println("Could not download image at url: \(photoUrlString)")
-//    }
-
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return pin.photos.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoAlbumCellReuseId", forIndexPath: indexPath) as! PhotoAlbumCell
-//        let meme = memes[indexPath.item]
-//        cell.imageView.image = meme.memedImage
-//
-//        if self.selectedIndexPaths.contains(indexPath) {
-//            cell.setSelectionOverlayVisible(true)
-//        } else {
-//            cell.setSelectionOverlayVisible(false)
-//        }
+
+        var image = UIImage(named: "photoPlaceholder")
+
+        let photo = self.pin.photos[indexPath.item]
+
+        if photo.flickrUrl == nil || photo.flickrUrl == "" {
+            println("!! Photo has no Flickr URL, cannot download !!")
+        } else if photo.image != nil {
+            image = photo.image
+        } else {
+
+            // The image needs to be downloaded from Flickr
+
+            // TODO - do this with a FlickrClient.taskForWhatever call,
+            //         so the task can be associated with the cell and cancelled later if needed
+            if let imageData = NSData(contentsOfURL: NSURL(string: photo.flickrUrl!)!) {
+
+                // Make sure UI updates and CoreData updates are made on the main thread
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                    let downloadedImage = UIImage(data: imageData)
+
+                    cell.imageView.image = downloadedImage
+
+                    // Make sure the image is associated with the Photo object in CoreData
+                    photo.image = downloadedImage
+                    CoreDataStackManager.sharedInstance().saveContext()
+                })
+            } else {
+                println("Could not download image at url: \(photo.flickrUrl)")
+            }
+        }
+
+        cell.imageView.image = image
 
         return cell
     }

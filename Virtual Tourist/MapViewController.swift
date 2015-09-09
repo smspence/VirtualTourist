@@ -202,6 +202,10 @@ extension MapViewController : MKMapViewDelegate {
         } else {
             println("!! Could not find Pin object associated with annotation !!")
         }
+
+        // Deselect the annotation. If this isn't done, the annotation will still be in a "selected" state
+        //  after navigating back to the map view, and the user won't be able to easily select it again.
+        mapView.deselectAnnotation(view.annotation, animated: false)
     }
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
