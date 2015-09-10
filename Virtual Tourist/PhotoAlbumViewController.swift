@@ -86,6 +86,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
         CoreDataStackManager.sharedInstance().saveContext()
 
+        self.collectionView.reloadData()
+
         downloadPhotoUrls()
     }
 
