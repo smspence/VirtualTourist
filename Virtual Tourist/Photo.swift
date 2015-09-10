@@ -42,7 +42,9 @@ class Photo : NSManagedObject {
         }
 
         set {
-            FlickrClient.Caches.imageCache.storeImage(newValue, withIdentifier: localFileName!)
+            if let localFileName = self.localFileName where count(localFileName) > 0 {
+                FlickrClient.Caches.imageCache.storeImage(newValue, withIdentifier: localFileName)
+            }
         }
     }
 

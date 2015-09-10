@@ -20,19 +20,45 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xHa-Xb-hJJ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PJg-4Q-T8L">
+                                <rect key="frame" x="0.0" y="520" width="600" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zb-lG-7Vw">
+                                        <rect key="frame" x="231" y="29" width="139" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="7zb-lG-7Vw" secondAttribute="centerX" constant="-0.5" id="Cdo-pQ-imM"/>
+                                    <constraint firstAttribute="centerY" secondItem="7zb-lG-7Vw" secondAttribute="centerY" constant="0.5" id="Qtl-EE-ElQ"/>
+                                    <constraint firstAttribute="height" constant="80" id="YLm-ab-sJd"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="PJg-4Q-T8L" secondAttribute="trailing" constant="-16" id="2JB-Z7-AGa"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xHa-Xb-hJJ" secondAttribute="trailing" constant="-16" id="5op-iz-icN"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="xHa-Xb-hJJ" secondAttribute="bottom" id="G9p-Rk-HAF"/>
                             <constraint firstItem="xHa-Xb-hJJ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="JeC-07-J70"/>
                             <constraint firstItem="xHa-Xb-hJJ" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="fyH-z9-uB1"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="PJg-4Q-T8L" secondAttribute="bottom" id="kiy-Gr-Jdx"/>
+                            <constraint firstItem="PJg-4Q-T8L" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="oQi-3b-sba"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="oRc-Fj-6by">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="0mj-bs-W8T"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="0mj-bs-W8T">
+                            <connections>
+                                <action selector="handleEditButtonTapped:" destination="vXZ-lx-hvc" id="WFd-vD-HZE"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="0mj-bs-W8T" id="TKY-Q7-NLd"/>
+                        <outlet property="editModeBannerView" destination="PJg-4Q-T8L" id="Seb-LD-3zG"/>
                         <outlet property="mapView" destination="xHa-Xb-hJJ" id="jfq-k4-F0X"/>
                     </connections>
                 </viewController>

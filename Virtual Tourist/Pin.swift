@@ -46,4 +46,14 @@ class Pin : NSManagedObject {
         }
     }
 
+    func clearPhotos() {
+
+        for photo in self.photos {
+            photo.image = nil //This deletes the image file from the image cache and from the documents directory
+            CoreDataStackManager.sharedInstance().managedObjectContext!.deleteObject(photo) //This removes the photo object from CoreData
+        }
+
+        CoreDataStackManager.sharedInstance().saveContext()
+    }
+
 }

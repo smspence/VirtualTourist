@@ -13,6 +13,12 @@ import CoreData
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var editModeBannerView: UIView!
+
+    let animationDurationSeconds = 0.33
+
+    var editModeEnabled = false
 
     struct MapRegionKeys {
         static let Latitude = "latitude"
@@ -36,6 +42,9 @@ class MapViewController: UIViewController {
 
         // Delegate methods defined in class extension at bottom of this file
         mapView.delegate = self
+
+        editModeBannerView.hidden = true
+        editModeBannerView.alpha = 0.0
 
         restoreMapRegion(false)
 
@@ -75,9 +84,45 @@ class MapViewController: UIViewController {
         return results as! [Pin]
     }
 
+    @IBAction func handleEditButtonTapped(sender: AnyObject) {
+
+        editModeEnabled = !editModeEnabled
+
+        if editModeEnabled {
+            // "Edit" was pressed
+            self.editModeStart()
+        } else {
+            // "Done" was pressed
+            self.editModeEnd()
+        }
+    }
+
+    func editModeStart() {
+
+        editButton.title = "Done"
+        editButton.style = UIBarButtonItemStyle.Done
+
+        editModeBannerView.hidden = false
+        UIView.animateWithDuration(animationDurationSeconds) {
+            self.editModeBannerView.alpha = 1.0
+        }
+    }
+
+    func editModeEnd() {
+
+        editButton.title = "Edit"
+        editButton.style = UIBarButtonItemStyle.Plain
+
+        UIView.animateWithDuration(animationDurationSeconds, animations: {
+            self.editModeBannerView.alpha = 0.0
+        }) { (finished) -> Void in
+            self.editModeBannerView.hidden = true
+        }
+    }
+
     func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
 
-        if gestureRecognizer.state == .Began {
+        if gestureRecognizer.state == .Began && !editModeEnabled {
 
             let touchCoordinatesXY : CGPoint = gestureRecognizer.locationInView(mapView)
 
@@ -105,7 +150,7 @@ class MapViewController: UIViewController {
         mapView.addAnnotation(newAnnotation)
     }
 
-    func fetchPinForAnnotation(annotation: MKPointAnnotation) -> Pin? {
+    func fetchPinForAnnotation(annotation: MKAnnotation) -> Pin? {
 
         let fetchRequest = NSFetchRequest(entityName: Pin.Constants.EntityName)
 
@@ -191,13 +236,22 @@ extension MapViewController : MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
 
-        if let pin = fetchPinForAnnotation(view.annotation as! MKPointAnnotation) {
+        if let pin = fetchPinForAnnotation(view.annotation) {
 
-            let photoAlbumVC = self.storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewControllerId") as! PhotoAlbumViewController
+            if editModeEnabled {
+                // Delete the pin
+                pin.clearPhotos()
+                sharedContext.deleteObject(pin)
+                CoreDataStackManager.sharedInstance().saveContext()
 
-            photoAlbumVC.pin = pin
+                mapView.removeAnnotation(view.annotation)
 
-            self.navigationController!.pushViewController(photoAlbumVC, animated: true)
+            } else {
+                // Go to the photo album view for this pin
+                let photoAlbumVC = self.storyboard!.instantiateViewControllerWithIdentifier("PhotoAlbumViewControllerId") as! PhotoAlbumViewController
+                photoAlbumVC.pin = pin
+                self.navigationController!.pushViewController(photoAlbumVC, animated: true)
+            }
 
         } else {
             println("!! Could not find Pin object associated with annotation !!")

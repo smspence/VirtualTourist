@@ -79,12 +79,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBAction func handleNewCollectionButtonTapped(sender: AnyObject) {
         println("newCollectionButton tapped")
 
-        for photo in pin.photos {
-            photo.image = nil //This deletes the image file from the image cache and from the documents directory
-            sharedContext.deleteObject(photo) //This removes the photo object from CoreData
-        }
-
-        CoreDataStackManager.sharedInstance().saveContext()
+        pin.clearPhotos()
 
         self.collectionView.reloadData()
 
