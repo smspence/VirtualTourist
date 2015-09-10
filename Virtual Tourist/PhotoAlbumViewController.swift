@@ -297,11 +297,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
             // Show the detail view for the selected photo
 
+            // Make sure photo is not still selected after coming back from the detail view
             collectionView.deselectItemAtIndexPath(indexPath, animated: false)
 
-            let photo = pin.photos[indexPath.item]
             let photoDetailVC = self.storyboard!.instantiateViewControllerWithIdentifier("PhotoDetailViewControllerId") as! PhotoDetailViewController
-            photoDetailVC.photo = photo
+            photoDetailVC.photo = pin.photos[indexPath.item]
             self.navigationController!.pushViewController(photoDetailVC, animated: true)
         }
     }
