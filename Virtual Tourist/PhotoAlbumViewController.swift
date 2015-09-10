@@ -14,6 +14,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
     var pin: Pin!
 
+    @IBOutlet weak var noImagesLabel: UILabel!
+
     var downloadsInProgress: Int = 0 {
         didSet {
             // The newCollectionButton should only be enabled
@@ -40,6 +42,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.delegate = self
         collectionView.dataSource = self
 
+        noImagesLabel.hidden = true
+
         setUpMapView()
 
         if pin.photos.count > 0 {
@@ -54,6 +58,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func downloadPhotoUrls() {
 
         FlickrClient.sharedInstance().getPhotosAtLocation(pin.location.latitude, longitude: pin.location.longitude) { (photoUrls: [String]) in
+
+            self.noImagesLabel.hidden = (photoUrls.count > 0)
 
             for url in photoUrls {
 

@@ -157,6 +157,12 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="WVf-QZ-6hJ"/>
                                 </items>
                             </toolbar>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Images" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oC2-Af-s1G">
+                                <rect key="frame" x="259" y="289" width="83" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -164,9 +170,11 @@
                             <constraint firstItem="I0L-aA-jmu" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="EIF-A6-cVB"/>
                             <constraint firstItem="tCI-S4-bFx" firstAttribute="top" secondItem="axc-so-uUQ" secondAttribute="bottom" id="FEO-jE-8lH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="tCI-S4-bFx" secondAttribute="trailing" constant="-16" id="Tkq-CL-84t"/>
+                            <constraint firstAttribute="centerY" secondItem="oC2-Af-s1G" secondAttribute="centerY" constant="0.5" id="WMH-Ie-iMc"/>
                             <constraint firstItem="YVm-ge-7ol" firstAttribute="top" secondItem="tCI-S4-bFx" secondAttribute="bottom" id="Xzd-wj-G6P"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YVm-ge-7ol" secondAttribute="trailing" constant="-16" id="dzC-jn-eSu"/>
                             <constraint firstItem="tCI-S4-bFx" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="ee3-nA-SYN"/>
+                            <constraint firstAttribute="centerX" secondItem="oC2-Af-s1G" secondAttribute="centerX" constant="-0.5" id="mCQ-HY-HEA"/>
                             <constraint firstItem="6Ka-Gw-dMI" firstAttribute="top" secondItem="YVm-ge-7ol" secondAttribute="bottom" id="mYG-GY-MDQ"/>
                             <constraint firstItem="YVm-ge-7ol" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="wpq-Eh-QeS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I0L-aA-jmu" secondAttribute="trailing" constant="-16" id="yiF-qo-Aog"/>
@@ -176,6 +184,7 @@
                         <outlet property="collectionView" destination="YVm-ge-7ol" id="Jic-ja-oyQ"/>
                         <outlet property="mapView" destination="tCI-S4-bFx" id="3te-3Y-O1j"/>
                         <outlet property="newCollectionButton" destination="ELR-zl-CkG" id="iyz-rb-1kh"/>
+                        <outlet property="noImagesLabel" destination="oC2-Af-s1G" id="TG9-in-N3t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ich-pg-99k" userLabel="First Responder" sceneMemberID="firstResponder"/>
