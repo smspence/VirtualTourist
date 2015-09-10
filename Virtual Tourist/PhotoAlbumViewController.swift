@@ -16,6 +16,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var newCollectionButton: UIBarButtonItem!
 
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext!
@@ -58,6 +59,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         newAnnotation.coordinate = pin.location
         mapView.addAnnotation(newAnnotation)
         mapView.setRegion(MKCoordinateRegion(center: pin.location, span: MKCoordinateSpan(latitudeDelta: 0.075, longitudeDelta: 0.075)), animated: false)
+    }
+
+    @IBAction func handleNewCollectionButtonTapped(sender: AnyObject) {
+        println("newCollectionButton tapped")
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

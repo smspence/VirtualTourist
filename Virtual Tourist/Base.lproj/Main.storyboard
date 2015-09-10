@@ -83,11 +83,12 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YVm-ge-7ol">
                                 <rect key="frame" x="0.0" y="150" width="600" height="450"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wbc-C3-7rv">
                                     <size key="itemSize" width="110" height="110"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoAlbumCellReuseId" id="geH-03-pqY" customClass="PhotoAlbumCell" customModule="Virtual_Tourist" customModuleProvider="target">
@@ -115,27 +116,40 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I0L-aA-jmu">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="otX-Yn-WZL"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5Zu-Ya-EMV"/>
+                                    <barButtonItem title="New Collection" id="ELR-zl-CkG">
+                                        <connections>
+                                            <action selector="handleNewCollectionButtonTapped:" destination="hvb-py-AbJ" id="rI6-f9-cC0"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="WVf-QZ-6hJ"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="6Ka-Gw-dMI" firstAttribute="top" secondItem="I0L-aA-jmu" secondAttribute="bottom" id="CyN-i3-kbZ"/>
+                            <constraint firstItem="I0L-aA-jmu" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="EIF-A6-cVB"/>
                             <constraint firstItem="tCI-S4-bFx" firstAttribute="top" secondItem="axc-so-uUQ" secondAttribute="bottom" id="FEO-jE-8lH"/>
-                            <constraint firstItem="tCI-S4-bFx" firstAttribute="top" secondItem="UWb-68-Dgh" secondAttribute="topMargin" id="T1d-rn-v8X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="tCI-S4-bFx" secondAttribute="trailing" constant="-16" id="Tkq-CL-84t"/>
                             <constraint firstItem="YVm-ge-7ol" firstAttribute="top" secondItem="tCI-S4-bFx" secondAttribute="bottom" id="Xzd-wj-G6P"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YVm-ge-7ol" secondAttribute="trailing" constant="-16" id="dzC-jn-eSu"/>
                             <constraint firstItem="tCI-S4-bFx" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="ee3-nA-SYN"/>
                             <constraint firstItem="6Ka-Gw-dMI" firstAttribute="top" secondItem="YVm-ge-7ol" secondAttribute="bottom" id="mYG-GY-MDQ"/>
                             <constraint firstItem="YVm-ge-7ol" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="wpq-Eh-QeS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="I0L-aA-jmu" secondAttribute="trailing" constant="-16" id="yiF-qo-Aog"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="T1d-rn-v8X"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="YVm-ge-7ol" id="Jic-ja-oyQ"/>
                         <outlet property="mapView" destination="tCI-S4-bFx" id="3te-3Y-O1j"/>
+                        <outlet property="newCollectionButton" destination="ELR-zl-CkG" id="iyz-rb-1kh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ich-pg-99k" userLabel="First Responder" sceneMemberID="firstResponder"/>
