@@ -90,10 +90,10 @@ class MapViewController: UIViewController {
 
         if editModeEnabled {
             // "Edit" was pressed
-            self.editModeStart()
+            editModeStart()
         } else {
             // "Done" was pressed
-            self.editModeEnd()
+            editModeEnd()
         }
     }
 

@@ -11,6 +11,7 @@ import UIKit
 class PhotoAlbumCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var selectionOverlayView: UIView!
 
     var taskToCancelifCellIsReused: NSURLSessionTask? {
 
@@ -19,6 +20,10 @@ class PhotoAlbumCell: UICollectionViewCell {
                 taskToCancel.cancel()
             }
         }
+    }
+
+    func setSelectionOverlayVisible(state : Bool) {
+        selectionOverlayView.hidden = !state
     }
 
 }

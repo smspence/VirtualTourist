@@ -127,6 +127,15 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vSz-Eb-yx0">
                                                     <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qn9-dr-Os7">
+                                                    <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="checkMark" translatesAutoresizingMaskIntoConstraints="NO" id="Ea1-su-zqd">
+                                                            <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -138,11 +147,12 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="vSz-Eb-yx0" id="fVV-hx-mo6"/>
+                                            <outlet property="selectionOverlayView" destination="Qn9-dr-Os7" id="5DK-xD-DYF"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I0L-aA-jmu">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I0L-aA-jmu" userLabel="New Collection Toolbar">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="otX-Yn-WZL"/>
@@ -163,6 +173,21 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRC-Sj-Fpo" userLabel="Trash Toolbar">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="bbe-k3-9g3"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="izd-hI-6gb"/>
+                                    <barButtonItem systemItem="trash" id="si8-eA-fOO">
+                                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="handleTrashButtonTapped:" destination="hvb-py-AbJ" id="yJM-Xh-i4u"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -170,6 +195,7 @@
                             <constraint firstItem="I0L-aA-jmu" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="EIF-A6-cVB"/>
                             <constraint firstItem="tCI-S4-bFx" firstAttribute="top" secondItem="axc-so-uUQ" secondAttribute="bottom" id="FEO-jE-8lH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="tCI-S4-bFx" secondAttribute="trailing" constant="-16" id="Tkq-CL-84t"/>
+                            <constraint firstItem="6Ka-Gw-dMI" firstAttribute="top" secondItem="LRC-Sj-Fpo" secondAttribute="bottom" id="TzY-TQ-frV"/>
                             <constraint firstAttribute="centerY" secondItem="oC2-Af-s1G" secondAttribute="centerY" constant="0.5" id="WMH-Ie-iMc"/>
                             <constraint firstItem="YVm-ge-7ol" firstAttribute="top" secondItem="tCI-S4-bFx" secondAttribute="bottom" id="Xzd-wj-G6P"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YVm-ge-7ol" secondAttribute="trailing" constant="-16" id="dzC-jn-eSu"/>
@@ -177,7 +203,9 @@
                             <constraint firstAttribute="centerX" secondItem="oC2-Af-s1G" secondAttribute="centerX" constant="-0.5" id="mCQ-HY-HEA"/>
                             <constraint firstItem="6Ka-Gw-dMI" firstAttribute="top" secondItem="YVm-ge-7ol" secondAttribute="bottom" id="mYG-GY-MDQ"/>
                             <constraint firstItem="YVm-ge-7ol" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="wpq-Eh-QeS"/>
+                            <constraint firstItem="LRC-Sj-Fpo" firstAttribute="leading" secondItem="UWb-68-Dgh" secondAttribute="leadingMargin" constant="-16" id="ych-SL-C4q"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I0L-aA-jmu" secondAttribute="trailing" constant="-16" id="yiF-qo-Aog"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LRC-Sj-Fpo" secondAttribute="trailing" constant="-16" id="zzd-Lq-7Df"/>
                         </constraints>
                     </view>
                     <connections>
@@ -185,6 +213,9 @@
                         <outlet property="mapView" destination="tCI-S4-bFx" id="3te-3Y-O1j"/>
                         <outlet property="newCollectionButton" destination="ELR-zl-CkG" id="iyz-rb-1kh"/>
                         <outlet property="noImagesLabel" destination="oC2-Af-s1G" id="TG9-in-N3t"/>
+                        <outlet property="toolbarWithNewCollectionButton" destination="I0L-aA-jmu" id="re3-f8-rDh"/>
+                        <outlet property="toolbarWithTrashButton" destination="LRC-Sj-Fpo" id="a2d-VT-24j"/>
+                        <outlet property="trashButton" destination="si8-eA-fOO" id="SqI-z6-LoQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ich-pg-99k" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -224,4 +255,7 @@
             <point key="canvasLocation" x="1730" y="389"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="checkMark" width="110" height="110"/>
+    </resources>
 </document>
