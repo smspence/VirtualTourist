@@ -29,12 +29,12 @@ extension FlickrClient {
 
     private func getJsonForPhotosAtLocation(latitude: Double, longitude: Double, completionHandler: (photoUrls: [String], success: Bool) -> Void) {
 
-        let delta = 0.5
+        let deltaDegrees = 0.25
 
         //bbox:
         //   A comma-delimited list of 4 values defining the Bounding Box of the area that will be searched.
         //   The 4 values represent the bottom-left corner of the box and the top-right corner, minimum_longitude, minimum_latitude, maximum_longitude, maximum_latitude.
-        let bboxString = "\(longitude-delta),\(latitude-delta),\(longitude+delta),\(latitude+delta)"
+        let bboxString = "\(longitude-deltaDegrees),\(latitude-deltaDegrees),\(longitude+deltaDegrees),\(latitude+deltaDegrees)"
 
         let parameters = [
             "method": Constants.Method,

@@ -12,7 +12,19 @@ import CoreData
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
-    var pin : Pin!
+    var pin: Pin!
+
+    var downloadsInProgress: Int = 0 {
+        didSet {
+            // The newCollectionButton should only be enabled
+            //  if there are currently no photos in the process of being downloaded
+            if downloadsInProgress == 0 {
+                newCollectionButton.enabled = true
+            } else {
+                newCollectionButton.enabled = false
+            }
+        }
+    }
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -35,22 +47,25 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
 
         if pin.photos.isEmpty {
+            downloadPhotoUrls()
+        }
+    }
 
-            FlickrClient.sharedInstance().getPhotosAtLocation(pin.location.latitude, longitude: pin.location.longitude) { (photoUrls: [String]) in
+    func downloadPhotoUrls() {
 
-                for url in photoUrls {
+        FlickrClient.sharedInstance().getPhotosAtLocation(pin.location.latitude, longitude: pin.location.longitude) { (photoUrls: [String]) in
 
-                    var photo = Photo(flickrUrl: url, context: self.sharedContext)
+            for url in photoUrls {
 
-                    // Establish the relationship between photo and pin in CoreData
-                    photo.pin = self.pin
-                }
+                var photo = Photo(flickrUrl: url, context: self.sharedContext)
 
-                CoreDataStackManager.sharedInstance().saveContext()
-
-                self.collectionView.reloadData()
+                // Establish the relationship between photo and pin in CoreData
+                photo.pin = self.pin
             }
 
+            CoreDataStackManager.sharedInstance().saveContext()
+
+            self.collectionView.reloadData()
         }
     }
 
@@ -63,6 +78,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
     @IBAction func handleNewCollectionButtonTapped(sender: AnyObject) {
         println("newCollectionButton tapped")
+
+        for photo in pin.photos {
+            photo.image = nil //This deletes the image file from the image cache and from the documents directory
+            sharedContext.deleteObject(photo) //This removes the photo object from CoreData
+        }
+
+        CoreDataStackManager.sharedInstance().saveContext()
+
+        downloadPhotoUrls()
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -85,7 +109,13 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
             // The image needs to be downloaded from Flickr
 
+            downloadsInProgress++
+
             let task = FlickrClient.sharedInstance().taskForFile(photo.flickrUrl!) { (downloadedData, error) -> Void in
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    downloadsInProgress--
+                }
 
                 if let error = error {
                     println("Error returned when trying to download image from Flickr: \(error)")
