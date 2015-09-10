@@ -29,8 +29,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             //  if there are currently no photos in the process of being downloaded
             if downloadsInProgress == 0 {
                 newCollectionButton.enabled = true
+                editButton.enabled = true
             } else {
                 newCollectionButton.enabled = false
+                editButton.enabled = false
             }
         }
     }
@@ -47,6 +49,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        addRightBarButtonItem()
+
         collectionView.delegate = self
         collectionView.dataSource = self
 
@@ -58,8 +62,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
         toolbarWithNewCollectionButton.hidden = false
         toolbarWithTrashButton.hidden = true
-
-        addRightBarButtonItem()
 
         if pin.photos.count > 0 {
             println("pin already has \(pin.photos.count) photos")
