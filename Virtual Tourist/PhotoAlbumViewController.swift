@@ -102,7 +102,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
         var image = UIImage(named: "photoPlaceholder")
 
-        let photo = self.pin.photos[indexPath.item]
+        let photo = pin.photos[indexPath.item]
 
         if photo.flickrUrl == nil || photo.flickrUrl == "" {
             println("!! Photo has no Flickr URL, cannot download !!")
@@ -146,6 +146,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         cell.imageView.image = image
 
         return cell
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        let photo = pin.photos[indexPath.item]
+
+        let photoDetailVC = self.storyboard!.instantiateViewControllerWithIdentifier("PhotoDetailViewControllerId") as! PhotoDetailViewController
+        photoDetailVC.photo = photo
+        self.navigationController!.pushViewController(photoDetailVC, animated: true)
     }
 
 }

@@ -24,6 +24,7 @@
 		A69FB7291B96A09400CDBD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A69FB7281B96A09400CDBD43 /* Images.xcassets */; };
 		A69FB72C1B96A09400CDBD43 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A69FB72A1B96A09400CDBD43 /* LaunchScreen.xib */; };
 		A69FB7381B96A09400CDBD43 /* Virtual_TouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69FB7371B96A09400CDBD43 /* Virtual_TouristTests.swift */; };
+		A6BDB0AF1BA1388100A7AAB8 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BDB0AE1BA1388100A7AAB8 /* PhotoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		A69FB7311B96A09400CDBD43 /* Virtual TouristTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual TouristTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A69FB7361B96A09400CDBD43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A69FB7371B96A09400CDBD43 /* Virtual_TouristTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TouristTests.swift; sourceTree = "<group>"; };
+		A6BDB0AE1BA1388100A7AAB8 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				A695983F1B9CDF72006BFCD3 /* Model */,
 				A69FB7231B96A09400CDBD43 /* MapViewController.swift */,
 				A69598551B9E8344006BFCD3 /* PhotoAlbumCell.swift */,
+				A6BDB0AE1BA1388100A7AAB8 /* PhotoDetailViewController.swift */,
 				A69598511B9E2B0C006BFCD3 /* PhotoAlbumViewController.swift */,
 				A69FB7251B96A09400CDBD43 /* Main.storyboard */,
 				A69FB7281B96A09400CDBD43 /* Images.xcassets */,
@@ -279,6 +282,7 @@
 				A69FB7221B96A09400CDBD43 /* AppDelegate.swift in Sources */,
 				A69598501B9E01E4006BFCD3 /* Photo.swift in Sources */,
 				A695983E1B9CDBF6006BFCD3 /* CoreDataStackManager.swift in Sources */,
+				A6BDB0AF1BA1388100A7AAB8 /* PhotoDetailViewController.swift in Sources */,
 				A69598561B9E8344006BFCD3 /* PhotoAlbumCell.swift in Sources */,
 				A69598421B9CDF8F006BFCD3 /* Model.xcdatamodeld in Sources */,
 				A695984E1B9D22BD006BFCD3 /* FlickrConvenience.swift in Sources */,

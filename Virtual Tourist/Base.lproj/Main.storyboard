@@ -191,5 +191,37 @@
             </objects>
             <point key="canvasLocation" x="1042" y="389"/>
         </scene>
+        <!--Photo Detail View Controller-->
+        <scene sceneID="tXp-G8-T0n">
+            <objects>
+                <viewController storyboardIdentifier="PhotoDetailViewControllerId" id="VTv-mn-8z9" customClass="PhotoDetailViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BDp-6V-lGZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="lk2-DZ-lk1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zU4-XK-RHP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gVS-ck-qV1">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gVS-ck-qV1" firstAttribute="leading" secondItem="zU4-XK-RHP" secondAttribute="leadingMargin" constant="-16" id="KQd-Cq-97u"/>
+                            <constraint firstItem="gVS-ck-qV1" firstAttribute="top" secondItem="BDp-6V-lGZ" secondAttribute="bottom" id="T2R-Pu-qa9"/>
+                            <constraint firstItem="lk2-DZ-lk1" firstAttribute="top" secondItem="gVS-ck-qV1" secondAttribute="bottom" id="iPX-go-Ukr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gVS-ck-qV1" secondAttribute="trailing" constant="-16" id="wgr-i4-aoE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="gVS-ck-qV1" id="ekD-V3-j0c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2QU-k8-BG2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1730" y="389"/>
+        </scene>
     </scenes>
 </document>
