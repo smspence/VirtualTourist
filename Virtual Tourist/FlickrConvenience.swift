@@ -13,13 +13,17 @@ Shuffle as a mutating array method.
 This extension will let you shuffle a mutable Array instance in place.
 Example:
 var numbers = [1, 2, 3, 4, 5, 6, 7, 8]
-numbers.shuffle()  // e.g., numbers == [6, 1, 8, 3, 2, 4, 7, 5]
+numbers.shuffleInPlace()  // e.g., numbers == [6, 1, 8, 3, 2, 4, 7, 5]
 */
-extension Array {
-    mutating func shuffle() {
+extension MutableCollectionType where Index == Int {
+    /// Shuffle the elements of `self` in-place.
+    mutating func shuffleInPlace() {
+        // empty and single-element collections don't shuffle
         if count < 2 { return }
-        for i in 0..<(count - 1) {
+
+        for i in 0..<count - 1 {
             let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            guard i != j else { continue }
             swap(&self[i], &self[j])
         }
     }
@@ -52,7 +56,7 @@ extension FlickrClient {
             var photoUrls : [String] = [String]()
 
             if let error = error {
-                println("getJsonForPhotos download error: \(error)")
+                print("getJsonForPhotos download error: \(error)")
             } else {
 
                 if let photosDictionary = JSONResult["photos"] as? [String : AnyObject] {
@@ -65,7 +69,7 @@ extension FlickrClient {
                         numPhotos = 0
                     }
 
-                    println("Found \(numPhotos) photos")
+                    print("Found \(numPhotos) photos")
 
                     if numPhotos > 0 {
 
@@ -73,7 +77,7 @@ extension FlickrClient {
 
                         if let photosArray = photosDictionary["photo"] as? [[String : AnyObject]] {
 
-                            println("photosDictionary contains \(photosArray.count) photos")
+                            print("photosDictionary contains \(photosArray.count) photos")
 
                             // Return an array of 24 (or less if the returned list is smaller)
                             //   randomly-selected photo URLs
@@ -99,7 +103,7 @@ extension FlickrClient {
                     success = true
 
                 } else {
-                    println("!! Could not find \"photos\" object in JSON result !!")
+                    print("!! Could not find \"photos\" object in JSON result !!")
                 }
             }
 
@@ -120,7 +124,7 @@ extension FlickrClient {
             arrayOfIndices.append(ii)
         }
 
-        arrayOfIndices.shuffle()
+        arrayOfIndices.shuffleInPlace()
 
         return arrayOfIndices
     }
@@ -130,9 +134,9 @@ extension FlickrClient {
         getJsonForPhotosAtLocation(latitude, longitude: longitude) { (photoUrls: [String], success: Bool) in
 
             if success {
-                println("Successfully completed getPhotosAtLocation")
+                print("Successfully completed getPhotosAtLocation")
             } else {
-                println("Unsuccessful getPhotosAtLocation :(")
+                print("Unsuccessful getPhotosAtLocation :(")
             }
 
             completionHandler(photoUrls: photoUrls)

@@ -29,7 +29,7 @@ class MapViewController: UIViewController {
 
     var mapRegionFilePath : String {
         let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first as! NSURL
+        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
         return url.URLByAppendingPathComponent("mapRegionArchive").path!
     }
 
@@ -67,17 +67,17 @@ class MapViewController: UIViewController {
     }
 
     func fetchAllPins() -> [Pin] {
-        let error: NSErrorPointer = nil
 
         // Create the Fetch Request
         let fetchRequest = NSFetchRequest(entityName: Pin.Constants.EntityName)
 
         // Execute the Fetch Request
-        let results = sharedContext.executeFetchRequest(fetchRequest, error: error)
-
-        // Check for Errors
-        if error != nil {
-            println("Error in fetchAllPins(): \(error)")
+        let results: [AnyObject]?
+        do {
+            results = try sharedContext.executeFetchRequest(fetchRequest)
+        } catch let error as NSError {
+            print("Error in fetchAllPins(): \(error)")
+            results = nil
         }
 
         // Return the results, cast to an array of Pin objects
@@ -128,7 +128,7 @@ class MapViewController: UIViewController {
 
             let latLonCoordinates = mapView.convertPoint(touchCoordinatesXY, toCoordinateFromView: mapView)
 
-            println("x, y: \(touchCoordinatesXY)  lat, lon: (\(latLonCoordinates.latitude), \(latLonCoordinates.longitude))")
+            print("x, y: \(touchCoordinatesXY)  lat, lon: (\(latLonCoordinates.latitude), \(latLonCoordinates.longitude))")
 
             addMapAnnotationAtLatLon(latLonCoordinates)
             addPinObjectAtLatLon(latLonCoordinates)
@@ -138,7 +138,7 @@ class MapViewController: UIViewController {
     func addPinObjectAtLatLon(latLonPoint: CLLocationCoordinate2D) {
 
         // Create a new Pin object to be saved using CoreData
-        let newPin = Pin(latLonLocation: latLonPoint, context: sharedContext)
+        _ = Pin(latLonLocation: latLonPoint, context: sharedContext)
         CoreDataStackManager.sharedInstance().saveContext()
     }
 
@@ -157,11 +157,12 @@ class MapViewController: UIViewController {
         fetchRequest.predicate = NSPredicate(format: "latitudeDegrees == %lf && longitudeDegrees == %lf",
             annotation.coordinate.latitude, annotation.coordinate.longitude)
 
-        let error: NSErrorPointer = nil
-        let results = sharedContext.executeFetchRequest(fetchRequest, error: error)
-
-        if error != nil {
-            println("Error in fetchAllPins(): \(error)")
+        let results: [AnyObject]?
+        do {
+            results = try sharedContext.executeFetchRequest(fetchRequest)
+        } catch let error as NSError {
+            print("Error in fetchAllPins(): \(error)")
+            results = nil
         }
 
         var returnObject : Pin? = nil
@@ -173,11 +174,11 @@ class MapViewController: UIViewController {
                 returnObject = results[0]
 
                 if results.count > 1 {
-                    println("!! fetch for Pin for annotation returned \(results.count) results, supposed to be only 1 result !!")
+                    print("!! fetch for Pin for annotation returned \(results.count) results, supposed to be only 1 result !!")
                 }
 
             } else {
-                println("!! fetch for Pin for annotation returned 0 results !!")
+                print("!! fetch for Pin for annotation returned 0 results !!")
             }
         }
 
@@ -217,7 +218,7 @@ class MapViewController: UIViewController {
 
             let savedRegion = MKCoordinateRegion(center: center, span: span)
 
-            println("Unarchived map region: lat: \(latitude), lon: \(longitude), latD: \(latitudeDelta), lonD: \(longitudeDelta)")
+            print("Unarchived map region: lat: \(latitude), lon: \(longitude), latD: \(latitudeDelta), lonD: \(longitudeDelta)")
 
             mapView.setRegion(savedRegion, animated: animated)
         }
@@ -230,13 +231,13 @@ class MapViewController: UIViewController {
 // that it can save the new region.
 extension MapViewController : MKMapViewDelegate {
 
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         saveMapRegion()
     }
 
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
 
-        if let pin = fetchPinForAnnotation(view.annotation) {
+        if let pin = fetchPinForAnnotation(view.annotation!) {
 
             if editModeEnabled {
                 // Delete the pin
@@ -244,7 +245,7 @@ extension MapViewController : MKMapViewDelegate {
                 sharedContext.deleteObject(pin)
                 CoreDataStackManager.sharedInstance().saveContext()
 
-                mapView.removeAnnotation(view.annotation)
+                mapView.removeAnnotation(view.annotation!)
 
             } else {
                 // Go to the photo album view for this pin
@@ -254,7 +255,7 @@ extension MapViewController : MKMapViewDelegate {
             }
 
         } else {
-            println("!! Could not find Pin object associated with annotation !!")
+            print("!! Could not find Pin object associated with annotation !!")
         }
 
         // Deselect the annotation. If this isn't done, the annotation will still be in a "selected" state
@@ -262,7 +263,7 @@ extension MapViewController : MKMapViewDelegate {
         mapView.deselectAnnotation(view.annotation, animated: false)
     }
 
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 
         let reuseId = "pin"
 

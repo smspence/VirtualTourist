@@ -28,7 +28,7 @@ class WebHelper : NSObject {
 
         }
 
-        return (!urlVars.isEmpty ? "?" : "") + join("&", urlVars)
+        return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
 
     class func showNetworkActivityIndicator() {
