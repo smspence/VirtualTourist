@@ -64,7 +64,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         toolbarWithTrashButton.hidden = true
 
         if pin.photos.count > 0 {
-            println("pin already has \(pin.photos.count) photos")
+            print("pin already has \(pin.photos.count) photos")
         }
 
         if pin.photos.isEmpty {
@@ -128,7 +128,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
         for indexPath in indexPathsToDelete {
 
-            var photo = pin.photos[indexPath.item]
+            let photo = pin.photos[indexPath.item]
             photo.image = nil //This deletes the image file from the image cache and from the documents directory
             CoreDataStackManager.sharedInstance().managedObjectContext!.deleteObject(photo) //This removes the photo object from CoreData
         }
@@ -147,7 +147,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         // Create an array with the contents of our selectedIndexPaths set.
         // Sort the array from highest to lowest item index.
         var sortedArray = Array(self.selectedIndexPaths)
-        sortedArray.sort { (indexPath1 : NSIndexPath, indexPath2 : NSIndexPath) -> Bool in
+        sortedArray.sortInPlace { (indexPath1 : NSIndexPath, indexPath2 : NSIndexPath) -> Bool in
             return indexPath1.item > indexPath2.item
         }
 
@@ -188,7 +188,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
             for url in photoUrls {
 
-                var photo = Photo(flickrUrl: url, context: self.sharedContext)
+                let photo = Photo(flickrUrl: url, context: self.sharedContext)
 
                 // Establish the relationship between photo and pin in CoreData
                 photo.pin = self.pin
@@ -208,7 +208,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
 
     @IBAction func handleNewCollectionButtonTapped(sender: AnyObject) {
-        println("newCollectionButton tapped")
+        print("newCollectionButton tapped")
 
         pin.clearPhotos()
 
@@ -230,7 +230,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         let photo = pin.photos[indexPath.item]
 
         if photo.flickrUrl == nil || photo.flickrUrl == "" {
-            println("!! Photo has no Flickr URL, cannot download !!")
+            print("!! Photo has no Flickr URL, cannot download !!")
         } else if photo.image != nil {
             image = photo.image
         } else {
@@ -242,11 +242,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             let task = FlickrClient.sharedInstance().taskForFile(photo.flickrUrl!) { (downloadedData, error) -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    downloadsInProgress--
+                    self.downloadsInProgress--
                 }
 
                 if let error = error {
-                    println("Error returned when trying to download image from Flickr: \(error)")
+                    print("Error returned when trying to download image from Flickr: \(error)")
                 }
 
                 if let imageData = downloadedData {

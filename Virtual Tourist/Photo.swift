@@ -32,7 +32,7 @@ class Photo : NSManagedObject {
         super.init(entity: entity,insertIntoManagedObjectContext: context)
 
         self.flickrUrl = flickrUrl
-        self.localFileName = flickrUrl.lastPathComponent
+        self.localFileName = (flickrUrl as NSString).lastPathComponent
     }
 
     var image: UIImage? {
@@ -42,7 +42,7 @@ class Photo : NSManagedObject {
         }
 
         set {
-            if let localFileName = self.localFileName where count(localFileName) > 0 {
+            if let localFileName = self.localFileName where localFileName.characters.count > 0 {
                 FlickrClient.Caches.imageCache.storeImage(newValue, withIdentifier: localFileName)
             }
         }

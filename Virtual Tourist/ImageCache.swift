@@ -19,7 +19,7 @@ class ImageCache {
         // If the identifier is nil, or empty, return nil
         if identifier == nil || identifier! == "" {
 
-            println("!! In imageWithIdentifier, identifier is nil or empty !!")
+            print("!! In imageWithIdentifier, identifier is nil or empty !!")
 
             return nil
         }
@@ -28,13 +28,13 @@ class ImageCache {
 
         // First try the memory cache
         if let image = inMemoryCache.objectForKey(path) as? UIImage {
-            println("Returned image from inMemoryCache")
+            print("Returned image from inMemoryCache")
             return image
         }
 
         // Next Try the hard drive
         if let data = NSData(contentsOfFile: path) {
-            println("Returned image from hard drive")
+            print("Returned image from hard drive")
 
             let image = UIImage(data: data)
             // Save the image in the cache before returning,
@@ -44,7 +44,7 @@ class ImageCache {
             return image
         }
 
-        println("Reached the end of imageWithIdentifier.")
+        print("Reached the end of imageWithIdentifier.")
 
         return nil
     }
@@ -57,10 +57,13 @@ class ImageCache {
         // If the image is nil, remove images from the cache
         if image == nil {
 
-            println("Setting to nil in ImageCache, deleting image file")
+            print("Setting to nil in ImageCache, deleting image file")
 
             inMemoryCache.removeObjectForKey(path)
-            NSFileManager.defaultManager().removeItemAtPath(path, error: nil)
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(path)
+            } catch _ {
+            }
             return
         }
 
@@ -69,15 +72,15 @@ class ImageCache {
 
         // And in documents directory
         let data = UIImagePNGRepresentation(image!)
-        data.writeToFile(path, atomically: true)
+        data!.writeToFile(path, atomically: true)
     }
 
     // MARK: - Helper
 
     func pathForIdentifier(identifier: String) -> String {
-        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first as! NSURL
+        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
         let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(identifier)
-        
+
         return fullURL.path!
     }
 }
